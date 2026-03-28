@@ -98,6 +98,15 @@ func (p *Surface) Configure(adapter *Adapter, device *Device, config *SurfaceCon
 		}
 	}
 
+	if config != nil && config.DesiredMaximumFrameLatency > 0 {
+		extrasPtr := (*C.WGPUSurfaceConfigurationExtras)(C.calloc(1, C.size_t(unsafe.Sizeof(C.WGPUSurfaceConfigurationExtras{}))))
+		defer C.free(unsafe.Pointer(extrasPtr))
+		extrasPtr.chain.next = nil
+		extrasPtr.chain.sType = C.WGPUSType_SurfaceConfigurationExtras
+		extrasPtr.desiredMaximumFrameLatency = C.WGPUBool(config.DesiredMaximumFrameLatency)
+		cfg.nextInChain = (*C.WGPUChainedStruct)(unsafe.Pointer(extrasPtr))
+	}
+
 	C.wgpuSurfaceConfigure(p.ref, cfg)
 }
 

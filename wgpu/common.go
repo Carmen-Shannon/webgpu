@@ -80,6 +80,8 @@ type SurfaceConfiguration struct {
 	PresentMode PresentMode
 	AlphaMode   CompositeAlphaMode
 	ViewFormats []TextureFormat
+
+	DesiredMaximumFrameLatency uint32
 }
 
 type ImageCopyTexture struct {
