@@ -3,7 +3,7 @@ module github.com/oliverbestmann/webgpu
 go 1.25
 
 require (
-	github.com/go-gl/glfw/v3.4/glfw v0.1.0-pre.1.0.20260406072232-3ac4aa2bb164
+	github.com/go-gl/glfw/v3.4/glfw v0.1.0-pre.1.0.20260628091122-0bd588dc30cf
 	github.com/oliverbestmann/webgpu/libs-android v0.0.0-20260509160813-48db59792a15
 	github.com/oliverbestmann/webgpu/libs-darwin v0.0.0-20260509160802-b09403b07cd3
 	github.com/oliverbestmann/webgpu/libs-ios v0.0.0-20260509160803-765e39d2a48b
