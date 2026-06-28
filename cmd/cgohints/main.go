@@ -149,15 +149,39 @@ func generateWrappers() string {
 		#include <stdlib.h>
 		#include <string.h>
 		#include <wgpu.h>
+	
+		static inline size_t error_buf_size() {
+			return 16 * 1024;
+		}
 		
 		static inline void webgpu_error_callback(WGPUPopErrorScopeStatus status, WGPUErrorType type, WGPUStringView message, WGPU_NULLABLE void* userdata1, WGPU_NULLABLE void* userdata2) {
 			char* err = (char *)userdata1;
 			if (type == WGPUErrorType_NoError) {
 				return;
 			}
+	
+			// handle the case that we get a null data pointer
+			if (message.data == NULL) {
+				message.data = "unknown error";
+				message.length = WGPU_STRLEN;
+			}
 
-			memset(err, 0, 1024);
-			strncpy(err, message.data, 1024-1);
+			// update length if not specified
+			if (message.length == WGPU_STRLEN) {
+				message.length = strlen(message.data);
+			}
+			
+			// cap message length to available buffer size
+			size_t buf_size = error_buf_size();
+			if (message.length > buf_size - 1) {
+				message.length = buf_size - 1;
+			}
+	
+			// now we can just copy the data over
+			memcpy(err, message.data, message.length);
+			
+			// and set the zero byte at the end
+			err[message.length] = 0;
 		}
 	`)
 

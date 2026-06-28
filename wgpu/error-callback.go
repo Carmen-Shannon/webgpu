@@ -33,7 +33,7 @@ func acquireErrorCallback() *errorCallback {
 	runtime.Callers(2, cb.callers[:])
 
 	if cb.errStr == nil {
-		cb.errStr = (*C.char)(C.malloc(16 * 1024))
+		cb.errStr = (*C.char)(C.malloc(C.error_buf_size()))
 
 		// if this instance gets cleaned up, we need to release
 		// the error memory too
