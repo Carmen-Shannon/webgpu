@@ -200,8 +200,8 @@ func (p *RenderPassEncoder) SetImmediates(offset uint32, data []byte) {
 		C.wgpuRenderPassEncoderSetImmediates(
 			p.ref,
 			C.uint32_t(offset),
-			0,
 			nil,
+			0,
 		)
 		return
 	}
@@ -209,8 +209,8 @@ func (p *RenderPassEncoder) SetImmediates(offset uint32, data []byte) {
 	C.wgpuRenderPassEncoderSetImmediates(
 		p.ref,
 		C.uint32_t(offset),
-		C.uint32_t(size),
 		unsafe.Pointer(&data[0]),
+		C.size_t(size),
 	)
 }
 

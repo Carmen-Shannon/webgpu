@@ -72,8 +72,8 @@ func (g *Adapter) GetLimits() Limits {
 		MaxComputeWorkgroupSizeY:                  uint32(limits.maxComputeWorkgroupSizeY),
 		MaxComputeWorkgroupSizeZ:                  uint32(limits.maxComputeWorkgroupSizeZ),
 		MaxComputeWorkgroupsPerDimension:          uint32(limits.maxComputeWorkgroupsPerDimension),
+		MaxImmediateSize:                          uint32(limits.maxImmediateSize),
 
-		MaxImmediateSize:      uint32(nativeLimits.maxImmediateSize),
 		MaxNonSamplerBindings: uint32(nativeLimits.maxNonSamplerBindings),
 	}
 }
@@ -187,6 +187,7 @@ func (g *Adapter) RequestDevice(descriptor *DeviceDescriptor) (*Device, error) {
 				maxComputeWorkgroupSizeY:                  C.uint32_t(l.MaxComputeWorkgroupSizeY),
 				maxComputeWorkgroupSizeZ:                  C.uint32_t(l.MaxComputeWorkgroupSizeZ),
 				maxComputeWorkgroupsPerDimension:          C.uint32_t(l.MaxComputeWorkgroupsPerDimension),
+				maxImmediateSize:                          C.uint32_t(l.MaxImmediateSize),
 			}
 			desc.requiredLimits = requiredLimits
 
@@ -195,7 +196,6 @@ func (g *Adapter) RequestDevice(descriptor *DeviceDescriptor) (*Device, error) {
 
 			nativeLimits.chain.next = nil
 			nativeLimits.chain.sType = C.WGPUSType_NativeLimits
-			nativeLimits.maxImmediateSize = C.uint32_t(l.MaxImmediateSize)
 			nativeLimits.maxNonSamplerBindings = C.uint32_t(l.MaxNonSamplerBindings)
 
 			desc.requiredLimits.nextInChain = (*C.WGPUChainedStruct)(unsafe.Pointer(nativeLimits))

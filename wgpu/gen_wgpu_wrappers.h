@@ -850,6 +850,20 @@ static inline void go_wgpuComputePassEncoderSetBindGroup(
   wgpuDevicePopErrorScope(_dev, err_cb);
 }
 
+static inline void go_wgpuComputePassEncoderSetImmediates(
+    WGPUDevice _dev, char *err, WGPUComputePassEncoder computePassEncoder,
+    uint32_t offset, void const *data, size_t size) {
+  wgpuDevicePushErrorScope(_dev, WGPUErrorFilter_Validation);
+  wgpuComputePassEncoderSetImmediates(computePassEncoder, offset, data, size);
+
+  WGPUPopErrorScopeCallbackInfo const err_cb = {
+      .callback = webgpu_error_callback,
+      .userdata1 = (void *)err,
+  };
+
+  wgpuDevicePopErrorScope(_dev, err_cb);
+}
+
 static inline void
 go_wgpuComputePassEncoderSetLabel(WGPUDevice _dev, char *err,
                                   WGPUComputePassEncoder computePassEncoder,
@@ -1913,6 +1927,20 @@ static inline void go_wgpuRenderBundleEncoderSetBindGroup(
   wgpuDevicePopErrorScope(_dev, err_cb);
 }
 
+static inline void go_wgpuRenderBundleEncoderSetImmediates(
+    WGPUDevice _dev, char *err, WGPURenderBundleEncoder renderBundleEncoder,
+    uint32_t offset, void const *data, size_t size) {
+  wgpuDevicePushErrorScope(_dev, WGPUErrorFilter_Validation);
+  wgpuRenderBundleEncoderSetImmediates(renderBundleEncoder, offset, data, size);
+
+  WGPUPopErrorScopeCallbackInfo const err_cb = {
+      .callback = webgpu_error_callback,
+      .userdata1 = (void *)err,
+  };
+
+  wgpuDevicePopErrorScope(_dev, err_cb);
+}
+
 static inline void go_wgpuRenderBundleEncoderSetIndexBuffer(
     WGPUDevice _dev, char *err, WGPURenderBundleEncoder renderBundleEncoder,
     WGPUBuffer buffer, WGPUIndexFormat format, uint64_t offset, uint64_t size) {
@@ -2183,6 +2211,20 @@ static inline void go_wgpuRenderPassEncoderSetBlendConstant(
     WGPUColor const *color) {
   wgpuDevicePushErrorScope(_dev, WGPUErrorFilter_Validation);
   wgpuRenderPassEncoderSetBlendConstant(renderPassEncoder, color);
+
+  WGPUPopErrorScopeCallbackInfo const err_cb = {
+      .callback = webgpu_error_callback,
+      .userdata1 = (void *)err,
+  };
+
+  wgpuDevicePopErrorScope(_dev, err_cb);
+}
+
+static inline void go_wgpuRenderPassEncoderSetImmediates(
+    WGPUDevice _dev, char *err, WGPURenderPassEncoder renderPassEncoder,
+    uint32_t offset, void const *data, size_t size) {
+  wgpuDevicePushErrorScope(_dev, WGPUErrorFilter_Validation);
+  wgpuRenderPassEncoderSetImmediates(renderPassEncoder, offset, data, size);
 
   WGPUPopErrorScopeCallbackInfo const err_cb = {
       .callback = webgpu_error_callback,

@@ -643,11 +643,14 @@ const NativeFeatureTextureFormat16bitNorm FeatureName = 0x0003000B
 const NativeFeatureTextureCompressionAstcHdr FeatureName = 0x0003000C
 const NativeFeatureMappablePrimaryBuffers FeatureName = 0x0003000E
 const NativeFeatureBufferBindingArray FeatureName = 0x0003000F
-const NativeFeatureUniformBufferAndStorageTextureArrayNonUniformIndexing FeatureName = 0x00030010
+const NativeFeatureStorageTextureArrayNonUniformIndexing FeatureName = 0x00030010
+const NativeFeatureAddressModeClampToZero FeatureName = 0x00030011
+const NativeFeatureAddressModeClampToBorder FeatureName = 0x00030012
 const NativeFeaturePolygonModeLine FeatureName = 0x00030013
 const NativeFeaturePolygonModePoint FeatureName = 0x00030014
 const NativeFeatureConservativeRasterization FeatureName = 0x00030015
-const NativeFeatureSpirvShaderPassthrough FeatureName = 0x00030017
+const NativeFeatureClearTexture FeatureName = 0x00030016
+const NativeFeatureMultiview FeatureName = 0x00030018
 const NativeFeatureVertexAttribute64bit FeatureName = 0x00030019
 const NativeFeatureTextureFormatNv12 FeatureName = 0x0003001A
 const NativeFeatureRayQuery FeatureName = 0x0003001C
@@ -660,6 +663,22 @@ const NativeFeatureSubgroupBarrier FeatureName = 0x00030023
 const NativeFeatureTimestampQueryInsideEncoders FeatureName = 0x00030024
 const NativeFeatureTimestampQueryInsidePasses FeatureName = 0x00030025
 const NativeFeatureShaderInt64 FeatureName = 0x00030026
+const NativeFeatureShaderFloat32Atomic FeatureName = 0x00030027
+const NativeFeatureTextureAtomic FeatureName = 0x00030028
+const NativeFeatureTextureFormatP010 FeatureName = 0x00030029
+const NativeFeaturePipelineCache FeatureName = 0x0003002B
+const NativeFeatureShaderInt64AtomicMinMax FeatureName = 0x0003002C
+const NativeFeatureShaderInt64AtomicAllOps FeatureName = 0x0003002D
+const NativeFeatureTextureInt64Atomic FeatureName = 0x00030030
+const NativeFeatureShaderBarycentrics FeatureName = 0x00030037
+const NativeFeatureSelectiveMultiview FeatureName = 0x00030038
+const NativeFeatureMultisampleArray FeatureName = 0x0003003A
+const NativeFeatureCooperativeMatrix FeatureName = 0x0003003B
+const NativeFeatureShaderPerVertex FeatureName = 0x0003003C
+const NativeFeatureShaderDrawIndex FeatureName = 0x0003003D
+const NativeFeatureAccelerationStructureBindingArray FeatureName = 0x0003003E
+const NativeFeatureMemoryDecorationCoherent FeatureName = 0x0003003F
+const NativeFeatureMemoryDecorationVolatile FeatureName = 0x00030040
 
 func (v FeatureName) String() string {
 	switch v {
@@ -733,16 +752,22 @@ func (v FeatureName) String() string {
 		return "native-feature-mappable-primary-buffers"
 	case NativeFeatureBufferBindingArray:
 		return "native-feature-buffer-binding-array"
-	case NativeFeatureUniformBufferAndStorageTextureArrayNonUniformIndexing:
-		return "native-feature-uniform-buffer-and-storage-texture-array-non-uniform-indexing"
+	case NativeFeatureStorageTextureArrayNonUniformIndexing:
+		return "native-feature-storage-texture-array-non-uniform-indexing"
+	case NativeFeatureAddressModeClampToZero:
+		return "native-feature-address-mode-clamp-to-zero"
+	case NativeFeatureAddressModeClampToBorder:
+		return "native-feature-address-mode-clamp-to-border"
 	case NativeFeaturePolygonModeLine:
 		return "native-feature-polygon-mode-line"
 	case NativeFeaturePolygonModePoint:
 		return "native-feature-polygon-mode-point"
 	case NativeFeatureConservativeRasterization:
 		return "native-feature-conservative-rasterization"
-	case NativeFeatureSpirvShaderPassthrough:
-		return "native-feature-spirv-shader-passthrough"
+	case NativeFeatureClearTexture:
+		return "native-feature-clear-texture"
+	case NativeFeatureMultiview:
+		return "native-feature-multiview"
 	case NativeFeatureVertexAttribute64bit:
 		return "native-feature-vertex-attribute64bit"
 	case NativeFeatureTextureFormatNv12:
@@ -767,6 +792,38 @@ func (v FeatureName) String() string {
 		return "native-feature-timestamp-query-inside-passes"
 	case NativeFeatureShaderInt64:
 		return "native-feature-shader-int64"
+	case NativeFeatureShaderFloat32Atomic:
+		return "native-feature-shader-float32atomic"
+	case NativeFeatureTextureAtomic:
+		return "native-feature-texture-atomic"
+	case NativeFeatureTextureFormatP010:
+		return "native-feature-texture-format-p010"
+	case NativeFeaturePipelineCache:
+		return "native-feature-pipeline-cache"
+	case NativeFeatureShaderInt64AtomicMinMax:
+		return "native-feature-shader-int64atomic-min-max"
+	case NativeFeatureShaderInt64AtomicAllOps:
+		return "native-feature-shader-int64atomic-all-ops"
+	case NativeFeatureTextureInt64Atomic:
+		return "native-feature-texture-int64atomic"
+	case NativeFeatureShaderBarycentrics:
+		return "native-feature-shader-barycentrics"
+	case NativeFeatureSelectiveMultiview:
+		return "native-feature-selective-multiview"
+	case NativeFeatureMultisampleArray:
+		return "native-feature-multisample-array"
+	case NativeFeatureCooperativeMatrix:
+		return "native-feature-cooperative-matrix"
+	case NativeFeatureShaderPerVertex:
+		return "native-feature-shader-per-vertex"
+	case NativeFeatureShaderDrawIndex:
+		return "native-feature-shader-draw-index"
+	case NativeFeatureAccelerationStructureBindingArray:
+		return "native-feature-acceleration-structure-binding-array"
+	case NativeFeatureMemoryDecorationCoherent:
+		return "native-feature-memory-decoration-coherent"
+	case NativeFeatureMemoryDecorationVolatile:
+		return "native-feature-memory-decoration-volatile"
 	default:
 		return ""
 	}
@@ -1019,6 +1076,19 @@ func (v MipmapFilterMode) String() string {
 	}
 }
 
+type NativeAddressMode uint32
+
+const NativeAddressModeClampToBorder NativeAddressMode = 0x00000004
+
+func (v NativeAddressMode) String() string {
+	switch v {
+	case NativeAddressModeClampToBorder:
+		return "clamp-to-border"
+	default:
+		return ""
+	}
+}
+
 type NativeDisplayHandleType uint32
 
 const NativeDisplayHandleTypeNone NativeDisplayHandleType = 0x00000000
@@ -1056,29 +1126,11 @@ func (v NativeQueryType) String() string {
 
 type NativeTextureFormat uint32
 
-const NativeTextureFormatR16Unorm NativeTextureFormat = 0x00030001
-const NativeTextureFormatR16Snorm NativeTextureFormat = 0x00030002
-const NativeTextureFormatRg16Unorm NativeTextureFormat = 0x00030003
-const NativeTextureFormatRg16Snorm NativeTextureFormat = 0x00030004
-const NativeTextureFormatRgba16Unorm NativeTextureFormat = 0x00030005
-const NativeTextureFormatRgba16Snorm NativeTextureFormat = 0x00030006
 const NativeTextureFormatNV12 NativeTextureFormat = 0x00030007
 const NativeTextureFormatP010 NativeTextureFormat = 0x00030008
 
 func (v NativeTextureFormat) String() string {
 	switch v {
-	case NativeTextureFormatR16Unorm:
-		return "r16unorm"
-	case NativeTextureFormatR16Snorm:
-		return "r16snorm"
-	case NativeTextureFormatRg16Unorm:
-		return "rg16unorm"
-	case NativeTextureFormatRg16Snorm:
-		return "rg16snorm"
-	case NativeTextureFormatRgba16Unorm:
-		return "rgba16unorm"
-	case NativeTextureFormatRgba16Snorm:
-		return "rgba16snorm"
 	case NativeTextureFormatNV12:
 		return "nv12"
 	case NativeTextureFormatP010:
@@ -1335,6 +1387,59 @@ func (v SamplerBindingType) String() string {
 		return "non-filtering"
 	case SamplerBindingTypeComparison:
 		return "comparison"
+	default:
+		return ""
+	}
+}
+
+type SamplerBorderColor uint32
+
+const SamplerBorderColorUndefined SamplerBorderColor = 0x00000000
+const SamplerBorderColorTransparentBlack SamplerBorderColor = 0x00000001
+const SamplerBorderColorOpaqueBlack SamplerBorderColor = 0x00000002
+const SamplerBorderColorOpaqueWhite SamplerBorderColor = 0x00000003
+const SamplerBorderColorZero SamplerBorderColor = 0x00000004
+
+func (v SamplerBorderColor) String() string {
+	switch v {
+	case SamplerBorderColorUndefined:
+		return "undefined"
+	case SamplerBorderColorTransparentBlack:
+		return "transparent-black"
+	case SamplerBorderColorOpaqueBlack:
+		return "opaque-black"
+	case SamplerBorderColorOpaqueWhite:
+		return "opaque-white"
+	case SamplerBorderColorZero:
+		return "zero"
+	default:
+		return ""
+	}
+}
+
+type ShaderRuntimeChecks uint64
+
+const ShaderRuntimeChecksNone ShaderRuntimeChecks = 0x00000000
+const ShaderRuntimeChecksBoundsChecks ShaderRuntimeChecks = 0x00000001
+const ShaderRuntimeChecksForceLoopBounding ShaderRuntimeChecks = 0x00000002
+const ShaderRuntimeChecksRayQueryInitializationTracking ShaderRuntimeChecks = 0x00000004
+const ShaderRuntimeChecksTaskShaderDispatchTracking ShaderRuntimeChecks = 0x00000008
+const ShaderRuntimeChecksMeshShaderPrimitiveIndicesClamp ShaderRuntimeChecks = 0x00000010
+
+func (v ShaderRuntimeChecks) String() string {
+	switch v {
+	case ShaderRuntimeChecksNone:
+		return "none"
+	case ShaderRuntimeChecksBoundsChecks:
+		return "bounds-checks"
+	case ShaderRuntimeChecksForceLoopBounding:
+		return "force-loop-bounding"
+	case ShaderRuntimeChecksRayQueryInitializationTracking:
+		return "ray-query-initialization-tracking"
+	case ShaderRuntimeChecksTaskShaderDispatchTracking:
+		return "task-shader-dispatch-tracking"
+	case ShaderRuntimeChecksMeshShaderPrimitiveIndicesClamp:
+		return "mesh-shader-primitive-indices-clamp"
 	default:
 		return ""
 	}
@@ -2205,6 +2310,7 @@ const WGSLLanguageFeatureNameSubgroupId WGSLLanguageFeatureName = 0x00000006
 const WGSLLanguageFeatureNameTextureAndSamplerLet WGSLLanguageFeatureName = 0x00000007
 const WGSLLanguageFeatureNameSubgroupUniformity WGSLLanguageFeatureName = 0x00000008
 const WGSLLanguageFeatureNameTextureFormatsTier1 WGSLLanguageFeatureName = 0x00000009
+const WGSLLanguageFeatureNameLinearIndexing WGSLLanguageFeatureName = 0x0000000A
 
 func (v WGSLLanguageFeatureName) String() string {
 	switch v {
@@ -2226,6 +2332,8 @@ func (v WGSLLanguageFeatureName) String() string {
 		return "subgroup-uniformity"
 	case WGSLLanguageFeatureNameTextureFormatsTier1:
 		return "texture-formats-tier1"
+	case WGSLLanguageFeatureNameLinearIndexing:
+		return "linear-indexing"
 	default:
 		return ""
 	}

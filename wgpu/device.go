@@ -321,17 +321,7 @@ func (g *Device) TryCreatePipelineLayout(descriptor *PipelineLayoutDescriptor) (
 		}
 
 		if descriptor.EnableImmediates {
-			pipelineLayoutExtras := (*C.WGPUPipelineLayoutExtras)(C.calloc(1, C.size_t(unsafe.Sizeof(C.WGPUPipelineLayoutExtras{}))))
-			defer C.free(unsafe.Pointer(pipelineLayoutExtras))
-
-			pipelineLayoutExtras.chain.next = nil
-			pipelineLayoutExtras.chain.sType = C.WGPUSType_PipelineLayoutExtras
-
-			pipelineLayoutExtras.immediateDataSize = 4
-
-			desc.nextInChain = (*C.WGPUChainedStruct)(unsafe.Pointer(pipelineLayoutExtras))
-		} else {
-			desc.nextInChain = nil
+			desc.immediateSize = 4
 		}
 	}
 
@@ -972,8 +962,8 @@ func (g *Device) GetLimits() Limits {
 		MaxComputeWorkgroupSizeY:                  uint32(limits.maxComputeWorkgroupSizeY),
 		MaxComputeWorkgroupSizeZ:                  uint32(limits.maxComputeWorkgroupSizeZ),
 		MaxComputeWorkgroupsPerDimension:          uint32(limits.maxComputeWorkgroupsPerDimension),
+		MaxImmediateSize:                          uint32(limits.maxImmediateSize),
 
-		MaxImmediateSize:      uint32(nativeLimits.maxImmediateSize),
 		MaxNonSamplerBindings: uint32(nativeLimits.maxNonSamplerBindings),
 	}
 }
