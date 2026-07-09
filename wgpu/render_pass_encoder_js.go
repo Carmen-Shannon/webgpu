@@ -68,6 +68,10 @@ func (g *RenderPassEncoder) SetBlendConstant(color *Color) {
 	g.jsValue.Call("setBlendConstant", jsColor)
 }
 
+func (g *RenderPassEncoder) SetImmediates(offset uint32, data []byte) {
+	panic("not supported in javascript")
+}
+
 // Draw as described:
 // https://gpuweb.github.io/gpuweb/#dom-gpurendercommandsmixin-draw
 func (g *RenderPassEncoder) Draw(vertexCount uint32, instanceCount, firstVertex, firstInstance uint32) {
