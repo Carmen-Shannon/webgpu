@@ -1,4 +1,4 @@
-module github.com/oliverbestmann/webgpu
+module github.com/Carmen-Shannon/webgpu
 
 go 1.25
 
